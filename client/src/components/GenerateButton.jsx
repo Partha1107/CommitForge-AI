@@ -1,48 +1,29 @@
-import { FaRocket } from "react-icons/fa";
-
 export default function GenerateButton({
   loading,
   disabled,
-  onClick,
+  onGenerate,
+  onRegenerate,
+  hasResult,
 }) {
   return (
-    <div className="flex justify-center mt-8">
+    <div className="flex justify-center gap-4 mt-8">
       <button
-        onClick={onClick}
+        onClick={onGenerate}
         disabled={loading || disabled}
-        className="
-          flex
-          items-center
-          gap-3
-          px-8
-          py-3
-          rounded-xl
-          bg-cyan-500
-          hover:bg-cyan-400
-          hover:scale-105
-          transition-all
-          duration-300
-          font-semibold
-          text-lg
-          disabled:bg-slate-700
-          disabled:text-slate-400
-          disabled:cursor-not-allowed
-          shadow-lg
-          hover:shadow-cyan-500/40
-        "
+        className="px-8 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 disabled:bg-slate-700 transition font-semibold"
       >
-        {loading ? (
-          <>
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            Generating...
-          </>
-        ) : (
-          <>
-            <FaRocket />
-            Generate
-          </>
-        )}
+        {loading ? "Generating..." : "Generate"}
       </button>
+
+      {hasResult && (
+        <button
+          onClick={onRegenerate}
+          disabled={loading}
+          className="px-8 py-3 rounded-xl border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white transition font-semibold"
+        >
+          🔄 Regenerate
+        </button>
+      )}
     </div>
   );
 }

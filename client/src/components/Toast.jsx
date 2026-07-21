@@ -1,27 +1,38 @@
-import React, { createContext, useContext, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState } from "react";
 
-const ToastContext = createContext(null);
+const ToastContext = createContext();
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = (message, duration = 3000) => {
-    const id = Date.now() + Math.random();
-    setToasts((t) => [...t, { id, message }]);
+  const addToast = (message, type = "success") => {
+    const id = Date.now();
+
+    setToasts((prev) => [...prev, { id, message, type }]);
+
     setTimeout(() => {
-      setToasts((t) => t.filter((x) => x.id !== id));
-    }, duration);
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
   };
 
   return (
-    <ToastContext.Provider value={{ addToast }}>
+    <ToastContext.Provider value={addToast}>
       {children}
 
-      <div className="fixed right-4 bottom-6 flex flex-col gap-2 z-50">
+      <div className="fixed top-5 right-5 z-50 space-y-3">
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="bg-slate-800 text-gray-100 px-4 py-2 rounded-md shadow-md border border-slate-700"
+            className={`px-4 py-3 rounded-lg shadow-lg text-white ${
+              toast.type === "success"
+                ? "bg-green-600"
+                : toast.type === "error"
+                ? "bg-red-600"
+                : toast.type === "warning"
+                ? "bg-yellow-600"
+                : "bg-blue-600"
+            }`}
           >
             {toast.message}
           </div>
@@ -32,9 +43,5 @@ export function ToastProvider({ children }) {
 }
 
 export function useToast() {
-  const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error("useToast must be used within ToastProvider");
-  return ctx.addToast;
+  return useContext(ToastContext);
 }
-
-export default ToastProvider;
