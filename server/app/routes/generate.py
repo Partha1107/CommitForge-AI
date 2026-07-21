@@ -1,34 +1,20 @@
-import json
-
 from fastapi import APIRouter, HTTPException
 
-from app.models.request import GenerateRequest
-from app.services.ai_manager import generate_ai
+from app.models.schemas import DiffRequest, CommitResponse
+from app.services.ai_service import generate_commit
 
 router = APIRouter()
 
 
-@router.post("/generate")
-def generate(data: GenerateRequest):
+@router.post("/generate", response_model=CommitResponse)
+def generate(request: DiffRequest):
     try:
-        ai_response = generate_ai(data.diff)
-
-        # Remove markdown if Gemini returns it
-        ai_response = (
-            ai_response.replace("```json", "")
-            .replace("```", "")
-            .strip()
-        )
-
-        return json.loads(ai_response)
-
-    except json.JSONDecodeError:
-        raise HTTPException(
-            status_code=500,
-            detail="Gemini returned invalid JSON."
-        )
+        result = generate_commit(request.diff)
+        result["provider"] = "OpenRouter"
+        return result
 
     except Exception as e:
+        print("ERROR:", e)
         raise HTTPException(
             status_code=500,
             detail=str(e)
