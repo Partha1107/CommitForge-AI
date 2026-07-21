@@ -1,0 +1,75 @@
+# Byte-compiled / cached files
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+env/
+env.bak/
+
+# Environment variables
+.env
+.env.*
+server/.env
+venv/.env
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage
+.tox/
+.nox/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Pyright / MyPy
+.mypy_cache/
+.pyre/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Logs
+*.log
+logs/
+
+# Databases
+*.sqlite3
+*.db
+
+# IDE / editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node (monorepo safety)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Misc
+*.swp
+*.bak
+*.tmp
+instance/
+local_settings.py
+.ropeproject
